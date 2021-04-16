@@ -8,10 +8,15 @@ Vue.config.productionTip = false
 window.axios = require('axios');
 
 //const baseURL = 'https://reqres.in/';
-const baseURL = 'https://backend.gavam.com.br/';
-const API_URL = 'api/v1/';
+//const baseURL = 'https://backend.gavam.com.br/';
+//const API_URL = 'api/v1/';
+
+//console.log('aqui', process.env)
+const baseURL = process.env.VUE_APP_API_BASEURL;
+const API_URL = process.env.VUE_APP_API_URL;
 
 Vue.prototype.$apiURL = API_URL;
+
 
 // Default config options
 axios.defaults.baseURL = baseURL;
