@@ -3,52 +3,62 @@
     <form>
       <h2 class="text-center mb-4">Login</h2>
       <div class="form-group">
-        <input type="email" class="form-control" placeholder="E-mail"
-            v-model="form.email"
-        >
+        <input
+          type="email"
+          class="form-control"
+          placeholder="E-mail"
+          v-model="form.email"
+        />
       </div>
       <div class="form-group">
-        <input type="password" class="form-control" placeholder="Senha"
-            v-model="form.password"
-        >
+        <input
+          type="password"
+          class="form-control"
+          placeholder="Senha"
+          v-model="form.password"
+        />
       </div>
 
       <div class="form-group text-center">
-        <button class="btn btn-primary"
-            @click.prevent="doLogin"
-        >Entrar</button>
+        <button class="btn btn-primary" @click.prevent="doLogin">Entrar</button>
       </div>
     </form>
   </div>
 </template>
 
 <script>
-
+import axios from 'axios';
 export default {
-  name: 'Login',
+  name: "Login",
   data() {
-      return {
-          form: {
-              email: '',
-              password: ''
-          }
+    return {
+      form: {
+        email: "",
+        password: ""
       }
+    };
   },
   methods: {
-      doLogin() {
-          /* let obj = this.form;
-          axios.post('api/token/', obj)
-          .then(({data}) => {
-            console.log('data', data);
-              let token = data.token;
-              localStorage.setItem('token', token);
-              axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-          }).catch((err) => {
-            console.error(err);
-          }); */
-          
-          // https://reqres.in/
-          /* axios.post('api/login', obj)
+    doLogin() {
+      let obj = this.form;
+      axios
+        .post("api/token/", obj)
+        .then(({ data }) => {
+          let token = data.access;
+          let refresh = data.refresh;
+          let user = JSON.stringify(data.user);
+          localStorage.setItem("token", token);
+          localStorage.setItem("token_refresh", refresh);
+          localStorage.setItem("user", user);
+          axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+          this.$router.push({ name: "Home" });
+        })
+        .catch(err => {
+          console.error(err);
+        });
+
+      // https://reqres.in/
+      /* axios.post('api/login', obj)
           .then(({data}) => {
               console.log('data', data);
               let token = data.token;
@@ -57,9 +67,9 @@ export default {
           }).catch((err) => {
               console.error(err);
           }); */
-      }
+    }
   }
-}
+};
 </script>
 
 <style scoped>
