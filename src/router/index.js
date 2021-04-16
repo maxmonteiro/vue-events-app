@@ -11,13 +11,12 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: Login
+    component: Login,
+    meta: {
+      public: true,  // Allow access to even if not logged in
+      onlyWhenLoggedOut: true
+    }
   },
-  /*{
-    path: '/',
-    name: 'Home',
-    component: Home
-  }, */
   {
     path: '/',
     component: Page,
@@ -26,7 +25,7 @@ const routes = [
         path: '/',
         name: 'Home',
         component: Home
-      },  
+      },
     ]
   },
   {
@@ -43,6 +42,27 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  let token = localStorage.getItem('token');
+  const isPublic = to.matched.some(record => record.meta.public)
+  const onlyWhenLoggedOut = to.matched.some(record => record.meta.onlyWhenLoggedOut)
+  const loggedIn = !!token;
+
+  if (!isPublic && !loggedIn) {
+    return next({
+      path: '/login',
+      query: { redirect: to.fullPath }  // Store the full path to redirect the user to after login
+    });
+  }
+
+  // Do not allow user to visit login page or register page if they are logged in
+  if (loggedIn && onlyWhenLoggedOut) {
+    return next('/')
+  }
+
+  next();
 })
 
 export default router
