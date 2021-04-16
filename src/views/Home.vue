@@ -7,7 +7,25 @@
 <script>
 
 export default {
-  name: 'Home'
+  name: 'Home',
+  data() {
+    return {
+      products: []
+    }
+  },
+  mounted() {
+    this.getProducts();
+  },
+  methods: {
+    getProducts() {
+      axios.get(this.$apiURL + '/users/')
+      .then(({data}) => {
+        console.log('data', data);
+      }).catch((err) => {
+        console.error(err);
+      });
+    }
+  }
 }
 </script>
 

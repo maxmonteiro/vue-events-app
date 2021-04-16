@@ -9,6 +9,9 @@ window.axios = require('axios');
 
 //const baseURL = 'https://reqres.in/';
 const baseURL = 'https://backend.gavam.com.br/';
+const API_URL = 'api/v1/';
+
+Vue.prototype.$apiURL = API_URL;
 
 // Default config options
 axios.defaults.baseURL = baseURL;
