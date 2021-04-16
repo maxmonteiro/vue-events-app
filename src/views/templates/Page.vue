@@ -291,7 +291,7 @@
 
               <div class="dropdown-divider"></div>
 
-              <a class="dropdown-item" href="#">
+              <a class="dropdown-item" href="#" @click="doLogout">
                 <i class="c-icon mr-2 cil-account-logout"></i>
                 Sair
               </a>
@@ -327,7 +327,7 @@
         </footer>
       </div>
     </div>
-    
+
   </div>
 </template>
 
@@ -335,6 +335,14 @@
 export default {
   data() {
     return {};
+  },
+  methods: {
+      doLogout() {
+          localStorage.removeItem('token');
+          localStorage.removeItem('token_refresh');
+          localStorage.removeItem('user');
+          this.$router.push('/login');
+      }
   }
 };
 </script>
