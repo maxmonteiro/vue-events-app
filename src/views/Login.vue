@@ -41,21 +41,20 @@ export default {
   methods: {
     doLogin() {
       let obj = this.form;
-      axios
-        .post("api/token/", obj)
-        .then(({ data }) => {
-          let token = data.access;
-          let refresh = data.refresh;
-          let user = JSON.stringify(data.user);
-          localStorage.setItem("token", token);
-          localStorage.setItem("token_refresh", refresh);
-          localStorage.setItem("user", user);
-          axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-          this.$router.push({ name: "Home" });
-        })
-        .catch(err => {
-          console.error(err);
-        });
+      axios.post("api/token/", obj)
+      .then(({ data }) => {
+        let token = data.access;
+        let refresh = data.refresh;
+        let user = JSON.stringify(data.user);
+        localStorage.setItem("token", token);
+        localStorage.setItem("token_refresh", refresh);
+        localStorage.setItem("user", user);
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        this.$router.push({ name: "Home" });
+      })
+      .catch(err => {
+        console.error(err);
+      });
 
       // https://reqres.in/
       /* axios.post('api/login', obj)
